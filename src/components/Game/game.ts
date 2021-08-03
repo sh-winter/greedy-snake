@@ -1,41 +1,52 @@
 /*
  * @Author: your name
  * @Date: 2021-08-02 21:39:10
- * @LastEditTime: 2021-08-02 23:02:33
+ * @LastEditTime: 2021-08-03 22:02:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \greedy-snake\src\components\Game\game.ts
  */
 import { Ref, onMounted } from 'vue'
 import { Application } from 'pixi.js'
-import useMap from './map'
+import useMap, { Map } from './map'
 import useSnake, { Snake } from './snake'
+import useFood, { Food } from './food'
 import useKey from './key'
 
 function init(container: HTMLElement | undefined, game: Application) {
   container?.appendChild(game.view) // 添加至 dom
-  const renderMap = useMap(game) // 使用地图
+  const map = useMap(game) // 使用地图
   const snake = useSnake(game) // 使用模型
-  renderMap()
-  
-  run(game, snake)
+  const food = useFood(game, map, snake)
+
+  run(game, map, snake, food)
 }
 
-function run(game: Application, snake: Snake) {
-  let idx = 0
-  useKey(game, snake)
-  snake.render()
-  game.ticker.add(() => {
-    if (!(++idx % 100)) render(snake)
-  })
+function run(game: Application, map: Map, snake: Snake, food: Food) {
+  console.log('游戏开始! ');
+
+  let idx = 0,
+    removeListener: () => void
+
+  const move = () => {
+    try {
+      snake.move(map, food)
+    } catch (e) {
+      removeListener?.()
+      console.log(e.message);
+    }
+  }
+  removeListener = useKey(game, snake, move)
+
+  const onTicker = () => {
+    if (!(++idx % 100)) move()
+  }
+  game.ticker.add(onTicker)
+  game.ticker.remove(onTicker)
+
 }
 
-export function render(snake: Snake) {
-  snake.move()
-  snake.render()
-}
-
-const useGame = (container: Ref<HTMLElement|undefined>) => {
+const useGame = (container: Ref<HTMLElement | undefined>) => {
   // 实例化 pixi 应用
   const game = new Application({ width: document.body.clientWidth, height: document.body.clientHeight })
 
