@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-02 21:39:10
- * @LastEditTime: 2021-08-05 13:18:02
+ * @LastEditTime: 2021-08-05 13:22:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \greedy-snake\src\components\Game\game.ts
@@ -39,7 +39,7 @@ function run(game: Application, map: Map, snake: Snake, food: Food) {
   }
 
   function onTicker() {
-    if (!(++idx % 100)) move()
+    if (!(++idx % 15)) move()
   }
   
   game.ticker.add(onTicker)

@@ -1,7 +1,7 @@
 /*
 * @Author: your name
 * @Date: 2021-08-02 21:38:44
- * @LastEditTime: 2021-08-03 21:45:25
+ * @LastEditTime: 2021-08-05 13:21:49
  * @LastEditors: Please set LastEditors
 * @Description: In User Settings Edit
 * @FilePath: \greedy-snake\src\components\Game\snake.ts
@@ -60,7 +60,7 @@ export default function useSnake(game: Application) {
       const {x, y} = newHead
       
       const collideWithBody = this.body.find(({ x: _x, y: _y }) => x === _x && y === _y)
-      const collideWithWall = x < 0 || x > (map.rows - 1) || y < 0 || y > (map.columns - 1)
+      const collideWithWall = x < 0 || x > (map.columns - 1) || y < 0 || y > (map.rows - 1)
       if (collideWithBody || collideWithWall) throw new Error('游戏结束! ')
 
       this.body.push(newHead) // 将尾巴移到头部
