@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-03 20:56:52
- * @LastEditTime: 2021-08-03 21:33:31
+ * @LastEditTime: 2021-08-05 13:23:42
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \greedy-snake\src\components\Game\food.ts
@@ -46,7 +46,6 @@ const useFood = (game: Application, map: Map, snake: Snake) => {
     y: 0,
     regen() {
       const { x, y } = getPos()
-      console.log('{ x, y }: ', { x, y });
       Object.assign(this, { x, y })
       Object.assign(node, { x: x * SIZE , y: y * SIZE })
       return this
