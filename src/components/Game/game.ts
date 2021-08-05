@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-02 21:39:10
- * @LastEditTime: 2021-08-03 22:02:07
+ * @LastEditTime: 2021-08-05 13:18:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \greedy-snake\src\components\Game\game.ts
@@ -26,23 +26,23 @@ function run(game: Application, map: Map, snake: Snake, food: Food) {
   console.log('游戏开始! ');
 
   let idx = 0,
-    removeListener: () => void
+    removeListener = useKey(game, snake, move)
 
-  const move = () => {
+  function move() {
     try {
       snake.move(map, food)
     } catch (e) {
       removeListener?.()
       console.log(e.message);
+      game.ticker.remove(onTicker)
     }
   }
-  removeListener = useKey(game, snake, move)
 
-  const onTicker = () => {
+  function onTicker() {
     if (!(++idx % 100)) move()
   }
+  
   game.ticker.add(onTicker)
-  game.ticker.remove(onTicker)
 
 }
 
